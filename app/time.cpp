@@ -31,8 +31,15 @@ int main(int argc, char *argv[]) {
         
         extern char **environ; // Environment variables
         
+        // Create the command path by concatenating "/bin/" with argv[1]
+        string commandPath = string("/bin/") + argv[1];
+
+        // Convert the string to a C-style string
+        char *command = new char[commandPath.length() + 1];
+        strcpy(command, commandPath.c_str());
+
         // Execute the command using execve
-        execve(argv[1], &argv[1], environ);
+        execve(command, &argv[1], environ);
 
         // If execve returns, there was an error
         perror("execve");
